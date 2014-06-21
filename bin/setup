@@ -10,10 +10,6 @@ shopt -s dotglob
 
 VERSION_DIR=shared
 
-if [ -d "$OPENSHIFT_PHP_DIR/versions/$version/" ]; then
-  VERSION_DIR="$version"
-fi
-
 # create config dir. populate on install
 mkdir -p $OPENSHIFT_PHP_DIR/configuration/etc/
 

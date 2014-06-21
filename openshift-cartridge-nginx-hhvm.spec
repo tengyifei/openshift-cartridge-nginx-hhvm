@@ -14,7 +14,7 @@ Requires:      rubygem(openshift-origin-node)
 #Obsoletes: openshift-origin-cartridge-php-5.3
 
 %description
-PHP-FPM cartridge for openshift. (Cartridge Format V2)
+HHVM cartridge for openshift. (Cartridge Format V2)
 
 %prep
 %setup -q
