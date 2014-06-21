@@ -10,11 +10,11 @@ PHP_CFG_FILE=$OPENSHIFT_PHP_DIR/configuration/etc/php-fpm.conf
 PHP_PID_FILE=$OPENSHIFT_PHP_DIR/run/php-fpm.pid
 
 function _nginx() {
-    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR $OPENSHIFT_PHP_DIR/usr/sbin/nginx "$@" >> $OPENSHIFT_PHP_LOG_DIR/nginx_error.log 2>&1
+    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR $OPENSHIFT_PHP_DIR/usr/bin $OPENSHIFT_PHP_DIR/usr/sbin/nginx "$@" >> $OPENSHIFT_PHP_LOG_DIR/nginx_error.log 2>&1
 }
 
 function _start_php() {
-    $OPENSHIFT_PHP_DIR/usr/bin/hhvm -c $OPENSHIFT_PHP_DIR/usr/etc/hhvm/php.ini --mode server -vServer.Type=fastcgi -vServer.Port=9000
+    ${OPENSHIFT_PHP_DIR}usr/bin/hhvm -c ${OPENSHIFT_PHP_DIR}usr/etc/hhvm/php.ini --mode server -vServer.Type=fastcgi -vServer.Port=9000
     #_php-fpm -D -y $OPENSHIFT_PHP_DIR/configuration/etc/php-fpm.conf >> $OPENSHIFT_PHP_LOG_DIR/php_error.log 2>&1
 }
 
