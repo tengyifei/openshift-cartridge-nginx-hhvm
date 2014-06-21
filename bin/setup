@@ -6,7 +6,7 @@ case "$1" in
 esac
 
 # Copy version specific files
-shopt -s dotglob
+#shopt -s dotglob
 
 VERSION_DIR=shared
 
