@@ -10,6 +10,7 @@ Vendor: php.net
 Cartridge-Version: 0.0.1
 Compatible-Versions: []
 Cartridge-Vendor: getup
+Source-Url: git@github.com:tengyifei/openshift-cartridge-nginx-hhvm.git
 Categories:
   - service
   - php
