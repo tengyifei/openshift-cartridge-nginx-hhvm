@@ -1,5 +1,5 @@
 Name: nginx-hhvm
-Cartridge-Short-Name: HHVM
+Cartridge-Short-Name: PHP
 Display-Name: Nginx HHVM 3.1.0
 Description: "Nginx [engine x] is an HTTP and reverse proxy server, as well as a mail proxy server, written by Igor Sysoev. HHVM (aka the HipHop Virtual Machine) is an open-source virtual machine designed for executing programs written in Hack and PHP.
 Version: '3.1.0'
