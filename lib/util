@@ -1,0 +1,22 @@
+#!/bin/bash
+# Utility functions for use in the cartridge scripts.
+
+function _run_template()
+{
+	for conf in $@; do
+		[ -e "$conf" ] || continue
+		/usr/bin/oo-erb "$conf" > "${conf%.erb}"
+	done
+}
+
+function build_nginx_config()
+{
+	echo Building nginx configuration
+	_run_template $OPENSHIFT_REPO_DIR/config/nginx.d/*.erb
+}
+
+function build_phpfpm_config()
+{
+	echo Building php-fpm configuration
+	_run_template $OPENSHIFT_REPO_DIR/config/php-fpm.d/*.erb
+}

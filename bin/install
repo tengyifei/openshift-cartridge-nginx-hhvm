@@ -1,0 +1,22 @@
+#!/bin/bash -eu
+
+case "$1" in
+  -v|--version)
+    version="$2"
+esac
+
+shopt -s dotglob
+
+VERSION_DIR=shared
+
+export OPENSHIFT_PHP_VERSION="$version"
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+source ${OPENSHIFT_PHP_DIR}lib/php_context
+
+echo "$version" > "$OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION"
+echo "$OPENSHIFT_PHP_DIR/configuration/etc/php.ini" > "$OPENSHIFT_PHP_DIR/env/PHPRC"
+
+update_configuration
+
+# build initial config
+cp -Hr $OPENSHIFT_PHP_DIR/versions/$VERSION_DIR/configuration/etc/* $OPENSHIFT_PHP_DIR/configuration/etc/

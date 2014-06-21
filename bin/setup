@@ -1,0 +1,35 @@
+#!/bin/bash -eu
+
+case "$1" in
+  -v|--version)
+    version="$2"
+esac
+
+# Copy version specific files
+shopt -s dotglob
+
+VERSION_DIR=shared
+
+if [ -d "$OPENSHIFT_PHP_DIR/versions/$version/" ]; then
+  VERSION_DIR="$version"
+fi
+
+# create config dir. populate on install
+mkdir -p $OPENSHIFT_PHP_DIR/configuration/etc/
+
+# copy nginx binary
+mkdir -p $OPENSHIFT_PHP_DIR/usr/sbin/
+cp -Hr $OPENSHIFT_PHP_DIR/versions/$VERSION_DIR/usr/sbin/* $OPENSHIFT_PHP_DIR/usr/sbin/
+
+# setup perl lib
+for file in nginx.so nginx.pm; do
+  ln -s $OPENSHIFT_PHP_DIR/versions/$VERSION_DIR/usr/lib/perl5/$file $OPENSHIFT_PHP_DIR/$file
+done
+
+# Create additional directories required by PHP
+mkdir -p $OPENSHIFT_PHP_DIR/phplib/pear/{docs,ext,php,cache,cfg,data,download,temp,tests,www}
+mkdir -p $OPENSHIFT_PHP_DIR/{logs,run,tmp,sessions}
+
+# Create additional directories required by nginx
+mkdir -p $TMP/nginx
+

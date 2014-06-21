@@ -1,0 +1,51 @@
+#!/bin/bash
+#
+#	/etc/rc.d/init.d/hhvm
+#
+# Starts the hhvm daemon
+#
+# chkconfig: 345 26 74
+# description: HHVM (aka the HipHop Virtual Machine) is an open-source virtual machine designed for executing programs written in Hack and PHP
+# processname: hhvm
+
+### BEGIN INIT INFO
+# Provides: hhvm
+# Required-Start: $local_fs
+# Required-Stop: $local_fs
+# Default-Start:  2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: start and stop hhvm
+# Description: HHVM (aka the HipHop Virtual Machine) is an open-source virtual machine designed for executing programs written in Hack and PHP
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+
+test -x /usr/bin/hhvm || exit 0
+
+case "$1" in
+  start)
+        /usr/bin/hhvm --config /etc/hhvm/config.hdf --user apache --mode daemon
+        ;;
+  stop)
+        start-stop-daemon --stop --quiet --oknodo --pidfile /var/hhvm/hhvm.pid
+        ;;
+
+  reload|force-reload|restart|try-restart)
+        $0 start
+        $0 start
+        ;;
+
+  status)
+        echo "No status"
+        ;;
+
+  *)
+        echo "Usage: /etc/init.d/hhvm {start|stop|restart|status}"
+        exit 1
+esac
+
+exit 0
+
+
