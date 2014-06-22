@@ -29,8 +29,8 @@ function _start_nginx() {
 function start() {
     echo "starting..."
     build_nginx_config && build_phpfpm_config
-    _start_nginx
     _start_php
+    _start_nginx
 }
 
 function _stop_service() {
