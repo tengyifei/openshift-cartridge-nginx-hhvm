@@ -3,7 +3,6 @@
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 source $OPENSHIFT_PHP_DIR/lib/util
 
-
 NGINX_CFG_FILE=$OPENSHIFT_PHP_DIR/configuration/etc/nginx.conf
 NGINX_PID_FILE=$OPENSHIFT_PHP_DIR/run/nginx.pid
 PHP_CFG_FILE=$OPENSHIFT_PHP_DIR/configuration/etc/php-fpm.conf
@@ -17,7 +16,6 @@ function _nginx() {
 function _start_php() {
     LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm -c ${OPENSHIFT_PHP_DIR}usr/etc/hhvm/php.ini --mode server -vServer.Type=fastcgi -vServer.Port=9000
     echo "HHVM started"
-    #_php-fpm -D -y $OPENSHIFT_PHP_DIR/configuration/etc/php-fpm.conf >> $OPENSHIFT_PHP_LOG_DIR/php_error.log 2>&1
 }
 
 function _start_nginx() {
