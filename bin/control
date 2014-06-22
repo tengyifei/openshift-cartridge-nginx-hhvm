@@ -11,10 +11,12 @@ PHP_PID_FILE=$OPENSHIFT_PHP_DIR/run/php-fpm.pid
 
 function _nginx() {
     LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR $OPENSHIFT_PHP_DIR/usr/sbin/nginx "$@" >> $OPENSHIFT_PHP_LOG_DIR/nginx_error.log 2>&1
+    echo "nginx started"
 }
 
 function _start_php() {
     LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm -c ${OPENSHIFT_PHP_DIR}usr/etc/hhvm/php.ini --mode server -vServer.Type=fastcgi -vServer.Port=9000
+    echo "HHVM started"
     #_php-fpm -D -y $OPENSHIFT_PHP_DIR/configuration/etc/php-fpm.conf >> $OPENSHIFT_PHP_LOG_DIR/php_error.log 2>&1
 }
 
@@ -29,7 +31,7 @@ function _start_nginx() {
 function start() {
     build_nginx_config && build_phpfpm_config
     _start_nginx
-	_start_php
+    _start_php
 }
 
 function _stop_service() {
@@ -83,22 +85,22 @@ function build() {
         mkdir -p "${OPENSHIFT_PHP_DIR}"/phplib/pear/{docs,ext,php,cache,cfg,data,download,temp,tests,www}
     fi
 
-    if [ -f ${OPENSHIFT_REPO_DIR}deplist.txt ]
-    then
-        for f in $(cat ${OPENSHIFT_REPO_DIR}deplist.txt)
-        do
-          if ! php_context "pear info '$f' >/dev/null"; then
-              php_context "pear install --alldeps '$f'"
-            else
-              php_context "pear upgrade --alldeps '$f'" || :
-            fi
-            echo
+    #if [ -f ${OPENSHIFT_REPO_DIR}deplist.txt ]
+    #then
+    #    for f in $(cat ${OPENSHIFT_REPO_DIR}deplist.txt)
+    #    do
+    #      if ! php_context "pear info '$f' >/dev/null"; then
+    #          php_context "pear install --alldeps '$f'"
+    #        else
+    #          php_context "pear upgrade --alldeps '$f'" || :
+    #        fi
+    #        echo
             # Remove gear-specific absolute paths from the generated PEAR
             # files except from the hidden dirs/files (cache, registry etc.)
-            find ${OPENSHIFT_PHP_DIR}phplib/pear/pear/ -type f \( ! -regex '.*/\..*' \) \
-              -exec sed -i "s|${OPENSHIFT_HOMEDIR}|~/|g" {} \;
-        done
-    fi
+    #        find ${OPENSHIFT_PHP_DIR}phplib/pear/pear/ -type f \( ! -regex '.*/\..*' \) \
+    #          -exec sed -i "s|${OPENSHIFT_HOMEDIR}|~/|g" {} \;
+    #    done
+    #fi
     return 0
 }
 
