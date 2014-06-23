@@ -1,10 +1,16 @@
 Log {
   Level = Warning
+  UseLogFile = true
+  File = ~/nginx-hhvm/logs/hhvm.log
   AlwaysLogUnhandledExceptions = true
+  Header = false
+  MaxMessagesPerRequest = -1
   RuntimeErrorReportingLevel = 8191
 }
 
-MySQL {
-  TypedResults = false
+Eval {
+  EnableZendCompat=true
 }
+
+PidFile = ~/app-root/data/hhvm.pid
 
