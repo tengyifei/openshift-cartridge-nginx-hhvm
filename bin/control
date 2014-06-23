@@ -14,7 +14,7 @@ function _nginx() {
 }
 
 function _start_php() {
-    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm -c ${OPENSHIFT_PHP_DIR}usr/etc/hhvm/php.ini --mode server -vServer.Type=fastcgi -vServer.FileSocket=/var/run/hhvm/sock -vRepo.Central.Path=${OPENSHIFT_DATA_DIR}.hhvm.hhbc
+    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm -c ${OPENSHIFT_PHP_DIR}usr/etc/hhvm/php.ini --mode server -vServer.Type=fastcgi -vServer.FileSocket=${OPENSHIFT_DATA_DIR}hhvm.sock -vRepo.Central.Path=${OPENSHIFT_DATA_DIR}.hhvm.hhbc
     echo "HHVM started"
 }
 

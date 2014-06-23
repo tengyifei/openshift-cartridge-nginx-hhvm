@@ -13,7 +13,7 @@ server {
     # php file goes straigth to backend
     location ~ \.php$ {
         try_files $uri =404;
-        fastcgi_pass   unix:/var/run/hhvm/hhvm.sock;
+        fastcgi_pass   unix:<%= ENV['OPENSHIFT_DATA_DIR'] %>hhvm.sock;
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
         include        fastcgi_params;
