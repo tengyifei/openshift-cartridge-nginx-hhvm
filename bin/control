@@ -6,7 +6,7 @@ source $OPENSHIFT_PHP_DIR/lib/util
 NGINX_CFG_FILE=$OPENSHIFT_PHP_DIR/configuration/etc/nginx.conf
 NGINX_PID_FILE=$OPENSHIFT_PHP_DIR/run/nginx.pid
 PHP_CFG_FILE=$OPENSHIFT_PHP_DIR/configuration/etc/php-fpm.conf
-PHP_PID_FILE=/var/run/hhvm/pid
+PHP_PID_FILE=${OPENSHIFT_DATA_DIR}hhvm.pid
 
 function _nginx() {
     LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR $OPENSHIFT_PHP_DIR/usr/sbin/nginx "$@" >> $OPENSHIFT_PHP_LOG_DIR/nginx_stdout.log 2>&1
