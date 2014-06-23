@@ -14,7 +14,7 @@ function _nginx() {
 }
 
 function _start_php() {
-    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm --mode daemon --config ${OPENSHIFT_PHP_DIR}usr/etc/hhvm/config.hdf -vServer.Type=fastcgi -vServer.FileSocket=${OPENSHIFT_DATA_DIR}hhvm.sock -vRepo.Central.Path=${OPENSHIFT_DATA_DIR}.hhvm.hhbc -vPidFile=${OPENSHIFT_DATA_DIR}hhvm.pid -vLog.Level=Warning -vEval.EnableZendCompat=true
+    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm --mode daemon --config ${OPENSHIFT_PHP_DIR}usr/etc/hhvm/config.hdf -vServer.Type=fastcgi -vServer.FileSocket=${OPENSHIFT_DATA_DIR}hhvm.sock -vRepo.Central.Path=${OPENSHIFT_DATA_DIR}.hhvm.hhbc -vPidFile=${OPENSHIFT_DATA_DIR}hhvm.pid -vLog.Level=Warning -vEval.EnableZendCompat=true -vLog.File=${OPENSHIFT_PHP_LOG_DIR}/hhvm.log -vLog.UseLogFile=true 
     echo "HHVM started"
 }
 
