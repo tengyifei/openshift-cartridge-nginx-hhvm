@@ -11,7 +11,7 @@ VERSION_DIR=shared
 
 export OPENSHIFT_PHP_VERSION="$version"
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
-source ${OPENSHIFT_PHP_DIR}lib/php_context
+#source ${OPENSHIFT_PHP_DIR}lib/php_context
 
 echo "$version" > "$OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION"
 echo "$OPENSHIFT_PHP_DIR/configuration/etc/php.ini" > "$OPENSHIFT_PHP_DIR/env/PHPRC"
