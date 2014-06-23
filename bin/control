@@ -6,7 +6,7 @@ source $OPENSHIFT_PHP_DIR/lib/util
 NGINX_CFG_FILE=$OPENSHIFT_PHP_DIR/configuration/etc/nginx.conf
 NGINX_PID_FILE=$OPENSHIFT_PHP_DIR/run/nginx.pid
 PHP_CFG_FILE=$OPENSHIFT_PHP_DIR/configuration/etc/php-fpm.conf
-PHP_PID_FILE=$OPENSHIFT_PHP_DIR/run/php-fpm.pid
+PHP_PID_FILE=/var/run/hhvm/pid
 
 function _nginx() {
     LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR $OPENSHIFT_PHP_DIR/usr/sbin/nginx "$@" >> $OPENSHIFT_PHP_LOG_DIR/nginx_error.log 2>&1
@@ -14,7 +14,7 @@ function _nginx() {
 }
 
 function _start_php() {
-    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm -c ${OPENSHIFT_PHP_DIR}usr/etc/hhvm/php.ini --mode server -vServer.Type=fastcgi -vServer.FileSocket=${OPENSHIFT_DATA_DIR}hhvm.sock -vRepo.Central.Path=${OPENSHIFT_DATA_DIR}.hhvm.hhbc
+    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm -c ${OPENSHIFT_PHP_DIR}usr/etc/hhvm/php.ini --mode daemon -vServer.Type=fastcgi -vServer.FileSocket=${OPENSHIFT_DATA_DIR}hhvm.sock -vRepo.Central.Path=${OPENSHIFT_DATA_DIR}.hhvm.hhbc
     echo "HHVM started"
 }
 
