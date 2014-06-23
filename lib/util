@@ -17,6 +17,6 @@ function build_nginx_config()
 
 function build_phpfpm_config()
 {
-	echo "Building php-fpm configuration"
+	echo "Building hhvm configuration"
 	#_run_template $OPENSHIFT_REPO_DIR/config/php-fpm.d/*.erb
 }

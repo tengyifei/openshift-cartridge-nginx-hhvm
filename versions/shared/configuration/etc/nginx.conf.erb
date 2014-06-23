@@ -20,6 +20,7 @@ http {
                       '"$http_user_agent" "$http_x_forwarded_for"';
 
     access_log         <%= ENV['OPENSHIFT_PHP_LOG_DIR'] %>/nginx_access.log;
+    error_log          <%= ENV['OPENSHIFT_PHP_LOG_DIR'] %>/nginx_error.log;
 
     client_body_temp_path <%= ENV['TMP'] %>/nginx/client_body;
     proxy_temp_path       <%= ENV['TMP'] %>/nginx/prox;

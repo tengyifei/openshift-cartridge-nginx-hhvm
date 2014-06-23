@@ -9,7 +9,7 @@ PHP_CFG_FILE=$OPENSHIFT_PHP_DIR/configuration/etc/php-fpm.conf
 PHP_PID_FILE=/var/run/hhvm/pid
 
 function _nginx() {
-    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR $OPENSHIFT_PHP_DIR/usr/sbin/nginx "$@" >> $OPENSHIFT_PHP_LOG_DIR/nginx_error.log 2>&1
+    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR $OPENSHIFT_PHP_DIR/usr/sbin/nginx "$@" >> $OPENSHIFT_PHP_LOG_DIR/nginx_stdout.log 2>&1
     echo "nginx started"
 }
 
