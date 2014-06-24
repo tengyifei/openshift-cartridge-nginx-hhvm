@@ -14,7 +14,7 @@ Eval {
 
 PidFile = ~/app-root/data/hhvm.pid
 
-DynamicExtensionPath = ~/nginx-hhvm/usr/bin/
+DynamicExtensionPath = ~/nginx-hhvm/usr/bin
 DynamicExtensions {
         * = geoip.so
 }
