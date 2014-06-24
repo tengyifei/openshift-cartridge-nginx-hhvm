@@ -13,7 +13,6 @@ export OPENSHIFT_PHP_VERSION="$version"
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 echo "$version" > "$OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION"
-echo "$OPENSHIFT_PHP_DIR/configuration/etc/php.ini" > "$OPENSHIFT_PHP_DIR/env/PHPRC"
 
 # build initial config
 cp -Hr $OPENSHIFT_PHP_DIR/versions/$VERSION_DIR/configuration/etc/* $OPENSHIFT_PHP_DIR/configuration/etc/

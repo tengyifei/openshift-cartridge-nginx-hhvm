@@ -1,7 +1,7 @@
 Log {
   Level = Warning
   UseLogFile = true
-  File = ~/nginx-hhvm/logs/hhvm.log
+  File = <%= ENV['OPENSHIFT_PHP_LOG_DIR']%>hhvm.log
   AlwaysLogUnhandledExceptions = true
   Header = false
   MaxMessagesPerRequest = -1
@@ -12,7 +12,13 @@ Eval {
   EnableZendCompat=true
 }
 
-PidFile = ~/app-root/data/hhvm.pid
+Repo{
+  Central{
+    Path = <%= ENV['OPENSHIFT_DATA_DIR'] %>.hhvm.hhbc
+  }
+}
+
+PidFile = <%= ENV['OPENSHIFT_DATA_DIR'] %>hhvm.pid
 
 DynamicExtensionPath = <%= ENV['OPENSHIFT_PHP_DIR'] %>usr/bin
 DynamicExtensions {

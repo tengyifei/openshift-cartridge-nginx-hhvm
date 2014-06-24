@@ -5,7 +5,7 @@ source $OPENSHIFT_PHP_DIR/lib/util
 
 NGINX_CFG_FILE=$OPENSHIFT_PHP_DIR/configuration/etc/nginx.conf
 NGINX_PID_FILE=$OPENSHIFT_PHP_DIR/run/nginx.pid
-PHP_CFG_FILE=${OPENSHIFT_PHP_DIR}usr/etc/hhvm/config.hdf
+PHP_CFG_FILE=${OPENSHIFT_REPO_DIR}config/hhvm.d/config.hdf
 PHP_PID_FILE=${OPENSHIFT_DATA_DIR}hhvm.pid
 
 function _nginx() {
@@ -14,7 +14,7 @@ function _nginx() {
 }
 
 function _start_php() {
-    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm --mode daemon --config ${PHP_CFG_FILE} -vServer.Type=fastcgi -vServer.FileSocket=${OPENSHIFT_DATA_DIR}hhvm.sock -vRepo.Central.Path=${OPENSHIFT_DATA_DIR}.hhvm.hhbc -vPidFile=${OPENSHIFT_DATA_DIR}hhvm.pid -vLog.Level=Warning -vEval.EnableZendCompat=true -vLog.File=${OPENSHIFT_PHP_LOG_DIR}/hhvm.log -vLog.UseLogFile=true 
+    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm --mode daemon --config ${PHP_CFG_FILE} -vServer.Type=fastcgi -vServer.FileSocket=${OPENSHIFT_DATA_DIR}hhvm.sock -vEval.EnableZendCompat=true
     echo "HHVM started"
 }
 
@@ -29,7 +29,6 @@ function _start_nginx() {
 function start() {
     client_message "starting..."
     build_nginx_config && build_phpfpm_config
-    _run_template ${PHP_CFG_FILE}.erb
     _start_php
     _start_nginx
 }
@@ -55,8 +54,6 @@ function stop() {
 function configtest() {
     client_message "Testing Nginx configuration files..."
     $OPENSHIFT_PHP_DIR/usr/sbin/nginx -c $NGINX_CFG_FILE -g "error_log stderr;" -t
-    client_message "Testing php-fpm configuration files..."
-    _php-fpm -F -y $OPENSHIFT_PHP_DIR/configuration/etc/php-fpm.conf --test
     return $?
 }
 
@@ -78,13 +75,6 @@ function tidy() {
 }
 
 function build() {
-    if [ -f "${OPENSHIFT_REPO_DIR}/.openshift/markers/force_clean_build" ]
-    then
-        echo ".openshift/markers/force_clean_build found!  Recreating pear libs" 1>&2
-        rm -rf "${OPENSHIFT_PHP_DIR}"/phplib/pear/*
-        mkdir -p "${OPENSHIFT_PHP_DIR}"/phplib/pear/{docs,ext,php,cache,cfg,data,download,temp,tests,www}
-    fi
-
     return 0
 }
 
