@@ -125,7 +125,7 @@
     Welcome to OpenShift
   </h1>
   <p>
-    Place your PHP <?php echo PHP_VERSION; ?> application here
+    Place your HHVM <?php echo HHVM_VERSION; ?> application here
   </p>
   <p>
     In order to commit to your new project, go to your projects git repo (created with the rhc app create command).  Make your changes, then run:
