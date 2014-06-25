@@ -23,4 +23,5 @@ The HHVM packaged with this cartridge is built directly from HHVM 3.1.0 source. 
 ## User-defined configuration
 
 Place your nginx .conf files inside config/nginx.d/. It will be include()ed from "http" scope.
+
 You may edit the config.hdf inside config/hhvm.d/. This configuration file will be loaded by HHVM.
