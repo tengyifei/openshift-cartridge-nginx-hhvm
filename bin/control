@@ -1,27 +1,27 @@
 #!/bin/bash -e
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
-source $OPENSHIFT_PHP_DIR/lib/util
+source ${OPENSHIFT_PHP_DIR}lib/util
 
-NGINX_CFG_FILE=$OPENSHIFT_PHP_DIR/configuration/etc/nginx.conf
-NGINX_PID_FILE=$OPENSHIFT_PHP_DIR/run/nginx.pid
+NGINX_CFG_FILE=${OPENSHIFT_PHP_DIR}configuration/etc/nginx.conf
+NGINX_PID_FILE=${OPENSHIFT_PHP_DIR}run/nginx.pid
 PHP_CFG_FILE=${OPENSHIFT_REPO_DIR}config/hhvm.d/config.hdf
 PHP_PID_FILE=${OPENSHIFT_DATA_DIR}hhvm.pid
 
 function _nginx() {
-    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR $OPENSHIFT_PHP_DIR/usr/sbin/nginx "$@" >> $OPENSHIFT_PHP_LOG_DIR/nginx_stdout.log 2>&1
+    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR ${OPENSHIFT_PHP_DIR}usr/sbin/nginx "$@" >> $OPENSHIFT_PHP_LOG_DIR/nginx_stdout.log 2>&1
     echo "nginx started"
 }
 
 function _start_php() {
-    LD_LIBRARY_PATH=$OPENSHIFT_PHP_DIR/usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm --mode daemon --config ${PHP_CFG_FILE} -vServer.Type=fastcgi -vServer.FileSocket=${OPENSHIFT_DATA_DIR}hhvm.sock -vEval.EnableZendCompat=true
+    LD_LIBRARY_PATH=${OPENSHIFT_PHP_DIR}usr/bin ${OPENSHIFT_PHP_DIR}usr/bin/hhvm --mode daemon --config ${PHP_CFG_FILE} -vServer.Type=fastcgi -vServer.FileSocket=${OPENSHIFT_DATA_DIR}hhvm.sock -vEval.EnableZendCompat=true
     echo "HHVM started"
 }
 
 function _start_nginx() {
-    if ! _nginx -p $OPENSHIFT_PHP_DIR -c $NGINX_CFG_FILE -g "error_log $OPENSHIFT_PHP_LOG_DIR/nginx_error.log;"; then
+    if ! _nginx -p $OPENSHIFT_PHP_DIR -c $NGINX_CFG_FILE -g "error_log ${OPENSHIFT_PHP_LOG_DIR}nginx_error.log;"; then
         echo 1>&2
-        cat $OPENSHIFT_PHP_LOG_DIR/nginx_error.log 1>&2
+        cat ${OPENSHIFT_PHP_LOG_DIR}nginx_error.log 1>&2
         return 1
     fi
 }
@@ -38,10 +38,12 @@ function _stop_service() {
         pid=`cat "$1" 2>/dev/null`
     fi
     if [ -n "$pid" ]; then
-        kill $pid
-        wait_for_stop $pid
-        if [ -f "$1" ]; then
-            rm -f "$1"
+	    if kill -0 $PID > /dev/null 2>&1; then
+            kill $pid
+            wait_for_stop $pid
+            if [ -f "$1" ]; then
+                rm -f "$1"
+            fi
         fi
     fi
 }
@@ -53,7 +55,7 @@ function stop() {
 
 function configtest() {
     client_message "Testing Nginx configuration files..."
-    $OPENSHIFT_PHP_DIR/usr/sbin/nginx -c $NGINX_CFG_FILE -g "error_log stderr;" -t
+    ${OPENSHIFT_PHP_DIR}usr/sbin/nginx -c $NGINX_CFG_FILE -g "error_log stderr;" -t
     return $?
 }
 

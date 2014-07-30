@@ -12,11 +12,11 @@ function _run_template()
 function build_nginx_config()
 {
 	echo "Building nginx configuration"
-	_run_template $OPENSHIFT_REPO_DIR/config/nginx.d/*.erb
+	_run_template ${OPENSHIFT_REPO_DIR}config/nginx.d/*.erb
 }
 
 function build_phpfpm_config()
 {
 	echo "Building hhvm configuration"
-	_run_template $OPENSHIFT_REPO_DIR/config/hhvm.d/*.erb
+	_run_template ${OPENSHIFT_REPO_DIR}config/hhvm.d/*.erb
 }

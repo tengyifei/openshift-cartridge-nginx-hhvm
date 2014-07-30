@@ -11,15 +11,16 @@ shopt -s dotglob
 VERSION_DIR=shared
 
 # create config dir. populate on install
-mkdir -p $OPENSHIFT_PHP_DIR/configuration/etc/
+mkdir -p ${OPENSHIFT_PHP_DIR}configuration/etc/
 
 # copy nginx binary
-mkdir -p $OPENSHIFT_PHP_DIR/usr/sbin/
-cp -Hr $OPENSHIFT_PHP_DIR/versions/$VERSION_DIR/usr/sbin/* $OPENSHIFT_PHP_DIR/usr/sbin/
+mkdir -p ${OPENSHIFT_PHP_DIR}usr/sbin/
+cp -Hr ${OPENSHIFT_PHP_DIR}versions/$VERSION_DIR/usr/sbin/* ${OPENSHIFT_PHP_DIR}usr/sbin/
 
 # Create additional directories required by PHP
-mkdir -p $OPENSHIFT_PHP_DIR/{logs,run,tmp,sessions}
+mkdir -p ${OPENSHIFT_PHP_DIR}{logs,run,tmp,sessions}
 
 # Create additional directories required by nginx
 mkdir -p $TMP/nginx
+mkdir -p $TMP/nginx/client_body
 
