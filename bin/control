@@ -41,9 +41,9 @@ function _stop_service() {
 	    if kill -0 $PID > /dev/null 2>&1; then
             kill $pid
             wait_for_stop $pid
-            if [ -f "$1" ]; then
-                rm -f "$1"
-            fi
+        fi
+        if [ -f "$1" ]; then
+            rm -f "$1"
         fi
     fi
 }

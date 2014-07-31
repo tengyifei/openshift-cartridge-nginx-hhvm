@@ -7,7 +7,7 @@ Release:       1%{?dist}
 Summary:       HHVM cartridge
 Group:         Development/Languages
 License:       ASL 2.0
-URL:           https://getupcloud.com
+URL:           https://github.com/tengyifei/openshift-cartridge-nginx-hhvm
 Source0:       https://github.com/tengyifei/origin-server/%{name}/%{name}-%{version}.tar.gz
 Requires:      rubygem(openshift-origin-node)
 
@@ -34,5 +34,5 @@ HHVM cartridge for openshift. (Cartridge Format V2)
 
 
 %changelog
-* Sat Jun 21 2014 Teng Yifei <getup@getupcloud.com> 0.0.0.3-1
+* Sat Jun 21 2014 Teng Yifei <tengyifei88@gmail.com> 0.0.0.3-1
 - initial commit
