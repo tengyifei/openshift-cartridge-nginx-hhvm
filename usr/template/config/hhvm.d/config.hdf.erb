@@ -20,7 +20,8 @@ Repo{
 
 PidFile = <%= ENV['OPENSHIFT_DATA_DIR'] %>hhvm.pid
 
-DynamicExtensionPath = <%= ENV['OPENSHIFT_PHP_DIR'] %>usr/bin
-DynamicExtensions {
-        * = geoip.so
-}
+# Uncomment to load GeoIP extension
+#DynamicExtensionPath = <%= ENV['OPENSHIFT_PHP_DIR'] %>usr/bin
+#DynamicExtensions {
+#        * = geoip.so
+#}

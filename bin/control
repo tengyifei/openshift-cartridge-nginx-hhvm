@@ -38,7 +38,8 @@ function _stop_service() {
         pid=`cat "$1" 2>/dev/null`
     fi
     if [ -n "$pid" ]; then
-	    if kill -0 $PID > /dev/null 2>&1; then
+	    if kill -0 $pid > /dev/null 2>&1; then
+            client_message "killing process ${pid}"
             kill $pid
             wait_for_stop $pid
         fi
