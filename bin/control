@@ -19,6 +19,9 @@ function _start_php() {
 }
 
 function _start_nginx() {
+	mkdir -p /tmp/nginx
+	mkdir -p /tmp/nginx/client_body
+	
     if ! _nginx -p $OPENSHIFT_PHP_DIR -c $NGINX_CFG_FILE -g "error_log ${OPENSHIFT_PHP_LOG_DIR}nginx_error.log;"; then
         echo 1>&2
         cat ${OPENSHIFT_PHP_LOG_DIR}nginx_error.log 1>&2
