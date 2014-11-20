@@ -1,6 +1,9 @@
 #!/bin/bash
 
+echo "deploying..."
+
 source $OPENSHIFT_PHP_DIR/lib/util
 
 # both nginx and phpfpm configs are rebuilt every deploy
 build_nginx_config & build_phpfpm_config
+
