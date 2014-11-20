@@ -1,6 +1,6 @@
 # OpenShift HHVM Cartridge
 
-Nginx 1.6.0 with HHVM 3.3.0
+Nginx 1.6.0 with HHVM 3.4.1
 
 Partly based on [pinodex/openshift-nginx-php-fpm](https://github.com/pinodex/openshift-nginx-php-fpm).
 
