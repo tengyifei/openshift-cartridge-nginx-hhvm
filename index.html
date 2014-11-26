@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Openshift-cartridge-nginx-hhvm by tengyifei</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Openshift-cartridge-nginx-hhvm</h1>
+        <p>Cartridge to run HHVM on OpenShift</p>
+
+        <p class="view"><a href="https://github.com/tengyifei/openshift-cartridge-nginx-hhvm">View the Project on GitHub <small>tengyifei/openshift-cartridge-nginx-hhvm</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/tengyifei/openshift-cartridge-nginx-hhvm/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/tengyifei/openshift-cartridge-nginx-hhvm/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/tengyifei/openshift-cartridge-nginx-hhvm">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="openshift-hhvm-cartridge" class="anchor" href="#openshift-hhvm-cartridge" aria-hidden="true"><span class="octicon octicon-link"></span></a>OpenShift HHVM Cartridge</h1>
+
+<p>Nginx 1.6.0 with HHVM 3.4.1</p>
+
+<p>Partly based on <a href="https://github.com/pinodex/openshift-nginx-php-fpm">pinodex/openshift-nginx-php-fpm</a>.</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a id="command-line" class="anchor" href="#command-line" aria-hidden="true"><span class="octicon octicon-link"></span></a>Command line</h3>
+
+<div class="highlight highlight-bash"><pre>$ rhc app create appname http://cartreflect-claytondev.rhcloud.com/github/tengyifei/openshift-cartridge-nginx-hhvm
+$ <span class="pl-s3">cd</span> appname
+$ <span class="pl-s3">echo</span> <span class="pl-s1"><span class="pl-pds">'</span>&lt;?php echo "Hello HHVM " . HHVM_VERSION; ?&gt;<span class="pl-pds">'</span></span> <span class="pl-k">&gt;</span> www/index.php
+$ git add <span class="pl-s3">.</span>
+$ git commit -m <span class="pl-s1"><span class="pl-pds">'</span>Testing<span class="pl-pds">'</span></span>
+$ git push</pre></div>
+
+<h2>
+<a id="hhvm" class="anchor" href="#hhvm" aria-hidden="true"><span class="octicon octicon-link"></span></a>HHVM</h2>
+
+<p>The HHVM packaged with this cartridge is built directly from the newest released version of HHVM source. Different from the official version, it comes with the experimental Zend Compatibility Layer (enabling many Zend extensions e.g. gettext, oauth) and a GeoIP plug-in. However, the user must manually specify a GeoIP database location via the HHVM config file.</p>
+
+<h2>
+<a id="user-defined-configuration" class="anchor" href="#user-defined-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>User-defined configuration</h2>
+
+<p>Place your nginx .conf files inside config/nginx.d/. It will be include()ed from "http" scope.</p>
+
+<p>You may edit the config.hdf inside config/hhvm.d/. This configuration file will be loaded by HHVM.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/tengyifei">tengyifei</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
