@@ -2,8 +2,6 @@
 locked_files:
 - bin/
 - bin/*
-- env/
-- env/*
 - hooks/
 - hooks/*
 - lib/

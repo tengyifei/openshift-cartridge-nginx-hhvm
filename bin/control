@@ -92,7 +92,20 @@ function fetch_package() {
 }
 
 function update() {
-	local versions_url = "http://tengyifei.github.io/openshift-cartridge-nginx-hhvm/versions.manifest";
+	local versions_url="http://tengyifei.github.io/openshift-cartridge-nginx-hhvm/versions.manifest";
+	local version_file="/tmp/versions.manifest"
+	
+	local VERSION="$(cat $OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION)"
+	echo "Current version: ${VERSION} "
+	
+	# Download list of available versions
+	curl "$versions_url" -L -s > "$version_file"
+	
+	echo "Available versions:"
+	cat "$version_file"
+	
+	# Obtain last line
+	local latest_version="$(sed -e 1b -e '$!d' $version_file)"
 	
     return 0
 }
