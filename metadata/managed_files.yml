@@ -10,8 +10,8 @@ locked_files:
 - lib/*
 - metadata/
 - metadata/*
-- usr/
-- usr/*
+- usr/template/
+- usr/template/*
 - versions/
 - versions/*
 processed_templates:
