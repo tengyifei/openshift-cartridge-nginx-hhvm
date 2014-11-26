@@ -30,6 +30,9 @@ function _start_nginx() {
 }
 
 function start() {
+	VERSION = "$(cat $OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION)"
+	client_message "Version: ${VERSION} "
+
     client_message "starting..."
     build_nginx_config && build_phpfpm_config
     _start_php
