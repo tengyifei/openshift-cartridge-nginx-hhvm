@@ -30,7 +30,7 @@ function _start_nginx() {
 }
 
 function start() {
-	local VERSION = "$(cat $OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION)"
+	local VERSION="$(cat $OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION)"
 	client_message "Version: ${VERSION} "
 
     client_message "starting..."
