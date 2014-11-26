@@ -85,10 +85,11 @@ function build() {
 }
 
 function fetch_package() {
+    return 0
 }
 
 function update() {
-    
+    return 0
 }
 
 case "$1" in
