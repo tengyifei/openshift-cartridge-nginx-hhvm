@@ -84,6 +84,13 @@ function build() {
     return 0
 }
 
+function fetch_package() {
+}
+
+function update() {
+    
+}
+
 case "$1" in
   start)           start;;
   stop)            stop;;
@@ -92,6 +99,7 @@ case "$1" in
   configtest)      configtest ;;
   tidy)            tidy;;
   build)           build;;
+  update)          update;;
   deploy)          exit 0;;
   *)               exit 0
 esac
