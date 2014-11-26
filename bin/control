@@ -103,9 +103,15 @@ function update() {
 	
 	echo "Available versions:"
 	cat "$version_file"
+	echo ""
 	
 	# Obtain last line
-	local latest_version="$(sed -e 1b -e '$!d' $version_file)"
+	local latest_version_line="$(sed -e 1b -e '$!d' $version_file)"
+	local latest_version="${a%% *}"
+	
+	echo "Lates version: $latest_version"
+	
+	echo ""
 	
     return 0
 }
