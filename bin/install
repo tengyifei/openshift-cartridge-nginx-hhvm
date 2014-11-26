@@ -5,7 +5,7 @@ case "$1" in
     version="$2"
 esac
 
-echo "Version: ${version}"
+client_message "Version: ${version}"
 
 shopt -s dotglob
 
