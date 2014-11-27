@@ -125,7 +125,7 @@ function upgrade_binaries() {
 	echo "$version" > "$OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION"
 	
 	start
-	print "Finished upgrade process!\n"
+	printf "Finished upgrade process!\n"
 }
 
 function update() {
@@ -148,6 +148,12 @@ function update() {
 	
 	echo "Latest version: $latest_version"
 	echo
+	
+	if [[ $latest_version == $VERSION ]]
+	then
+		printf "No upgrade necessary.\n"
+		return 0
+	fi
 	
 	read -p "Do you want to upgrade? (Y/N): " -n 1 -r
 	echo
