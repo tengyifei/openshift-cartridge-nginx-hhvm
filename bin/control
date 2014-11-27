@@ -96,12 +96,12 @@ function upgrade_binaries() {
 	local release_url="https://github.com/tengyifei/openshift-cartridge-nginx-hhvm/archive/${version}.tar.gz"
 	
 	# Create directories for download and extraction
-	mkdir -p "$CACHE_DIR/upgrade_package/${version}/"
+	mkdir -p "/tmp/upgrade_package/${version}/"
 	printf "Fetching latest binaries...\n"
-	curl "$release_url" -L -s > "$CACHE_DIR/upgrade_package/${version}.tgz"
+	curl "$release_url" -L -s > "/tmp/upgrade_package/${version}.tgz"
 	
 	printf "Extracting latest binaries...\n"
-	tar xzf "$CACHE_DIR/package/${package}.tgz"
+	tar xzf "/tmp/package/${package}.tgz"
 }
 
 function update() {
@@ -126,6 +126,7 @@ function update() {
 	echo
 	
 	read -p "Do you want to upgrade? (Y/N): " -n 1 -r
+	echo
 	
 	if [[ $REPLY =~ ^[Yy]$ ]]
 	then
