@@ -116,13 +116,14 @@ function update() {
 	
 	echo "Available versions:"
 	cat "$version_file"
-	echo "\n"
+	echo
 	
 	# Obtain last line
 	local latest_version_line="$(sed -e 1b -e '$!d' $version_file)"
-	local latest_version="${a%% *}"
+	local latest_version="${latest_version_line%% *}"
 	
-	echo "Latest version: $latest_version \n"
+	echo "Latest version: $latest_version"
+	echo
 	
 	echo "Do you want to upgrade? (Y/N): "
 	read response
