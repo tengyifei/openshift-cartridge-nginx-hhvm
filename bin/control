@@ -94,14 +94,38 @@ function fetch_package() {
 function upgrade_binaries() {
 	local version="$1";
 	local release_url="https://github.com/tengyifei/openshift-cartridge-nginx-hhvm/archive/${version}.tar.gz"
+	local tmp_dir="/tmp/upgrade_package/"
+	local repo_name="openshift-cartridge-nginx-hhvm"
 	
 	# Create directories for download and extraction
-	mkdir -p "/tmp/upgrade_package/${version}/"
+	mkdir -p "${tmp_dir}${version}/"
 	printf "Fetching latest binaries...\n"
-	curl "$release_url" -L -s > "/tmp/upgrade_package/${version}.tgz"
+	curl "$release_url" -L -s > "${tmp_dir}${version}.tgz"
 	
 	printf "Extracting latest binaries...\n"
-	tar xzf "/tmp/package/${package}.tgz"
+	tar xzf "${tmp_dir}${version}.tgz" -C "${tmp_dir}"
+	
+	printf "Preparing update\n"
+	local bin_location="${tmp_dir}${repo_name}-${version}"
+	printf "Stopping cartridge...\n"
+	stop
+	
+	printf "Copying new binaries\n"
+	
+	rm -rf "${OPENSHIFT_PHP_DIR}usr/bin"
+	mkdir "${OPENSHIFT_PHP_DIR}usr/bin"
+	
+	rm -rf "${OPENSHIFT_PHP_DIR}usr/sbin"
+	mkdir "${OPENSHIFT_PHP_DIR}usr/sbin"
+	
+	cp -R "${bin_location}/versions/shared/usr/bin/*" "${OPENSHIFT_PHP_DIR}usr/bin/"
+	cp -R "${bin_location}/versions/shared/usr/sbin/*" "${OPENSHIFT_PHP_DIR}usr/sbin/"
+	
+	printf "Writing new version to version file\n"
+	echo "$version" > "$OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION"
+	
+	start
+	print "Finished upgrade process!\n"
 }
 
 function update() {
