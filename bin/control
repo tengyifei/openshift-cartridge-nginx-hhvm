@@ -30,6 +30,9 @@ function _start_nginx() {
 }
 
 function start() {
+	local VERSION="$(cat $OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION)"
+	client_message "Version: ${VERSION} "
+
     client_message "starting..."
     build_nginx_config && build_phpfpm_config
     _start_php
@@ -88,7 +91,78 @@ function fetch_package() {
     return 0
 }
 
+function upgrade_binaries() {
+	local version="$1";
+	local release_url="https://github.com/tengyifei/openshift-cartridge-nginx-hhvm/archive/${version}.tar.gz"
+	local tmp_dir="/tmp/upgrade_package/"
+	local repo_name="openshift-cartridge-nginx-hhvm"
+	
+	# Create directories for download and extraction
+	mkdir -p "${tmp_dir}"
+	printf "Fetching latest binaries...\n"
+	curl "$release_url" -L -s > "${tmp_dir}${version}.tgz"
+	
+	printf "Extracting latest binaries...\n"
+	tar xzf "${tmp_dir}${version}.tgz" -C "${tmp_dir}"
+	
+	printf "Preparing update\n"
+	local bin_location="${tmp_dir}${repo_name}-${version}"
+	printf "Stopping cartridge...\n"
+	stop
+	
+	printf "Copying new binaries\n"
+	
+	rm -rf "${OPENSHIFT_PHP_DIR}usr/bin"
+	mkdir "${OPENSHIFT_PHP_DIR}usr/bin"
+	
+	rm -rf "${OPENSHIFT_PHP_DIR}usr/sbin"
+	mkdir "${OPENSHIFT_PHP_DIR}usr/sbin"
+	
+	cp -R "${bin_location}/versions/shared/usr/bin" "${OPENSHIFT_PHP_DIR}usr"
+	cp -R "${bin_location}/versions/shared/usr/sbin" "${OPENSHIFT_PHP_DIR}usr"
+	
+	printf "Writing new version to version file\n"
+	echo "$version" > "$OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION"
+	
+	start
+	printf "Finished upgrade process!\n"
+}
+
 function update() {
+	local versions_url="http://tengyifei.github.io/openshift-cartridge-nginx-hhvm/versions.manifest";
+	local version_file="/tmp/versions.manifest"
+	
+	local VERSION="$(cat $OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION)"
+	echo "Current version: ${VERSION} "
+	
+	# Download list of available versions
+	curl "$versions_url" -L -s > "$version_file"
+	
+	echo "Available versions:"
+	cat "$version_file"
+	echo
+	
+	# Obtain last line
+	local latest_version_line="$(sed -e 1b -e '$!d' $version_file)"
+	local latest_version="${latest_version_line%% *}"
+	
+	echo "Latest version: $latest_version"
+	echo
+	
+	if [[ $latest_version == $VERSION ]]
+	then
+		printf "No upgrade necessary.\n"
+		return 0
+	fi
+	
+	read -p "Do you want to upgrade? (Y/N): " -n 1 -r
+	echo
+	
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then
+		upgrade_binaries "$latest_version"
+	fi
+	
     return 0
 }
 

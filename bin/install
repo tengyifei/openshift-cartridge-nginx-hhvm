@@ -5,8 +5,6 @@ case "$1" in
     version="$2"
 esac
 
-echo "Version: ${version}"
-
 shopt -s dotglob
 
 VERSION_DIR=shared
