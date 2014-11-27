@@ -92,8 +92,8 @@ function fetch_package() {
 }
 
 function upgrade_binaries() {
-	local version = "$1";
-	local release_url = "https://github.com/tengyifei/openshift-cartridge-nginx-hhvm/archive/${version}.tar.gz"
+	local version="$1";
+	local release_url="https://github.com/tengyifei/openshift-cartridge-nginx-hhvm/archive/${version}.tar.gz"
 	
 	# Create directories for download and extraction
 	mkdir -p "$CACHE_DIR/upgrade_package/${version}/"
@@ -125,10 +125,9 @@ function update() {
 	echo "Latest version: $latest_version"
 	echo
 	
-	echo "Do you want to upgrade? (Y/N): "
-	read response
+	read -p "Do you want to upgrade? (Y/N): " -n 1 -r
 	
-	if (("$response" == "Y")) || (("$response" == "y")); then
+	if [[ $REPLY =~ ^[Yy]$ ]] then
 		upgrade_binaries "$latest_version"
 	fi
 	
