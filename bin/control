@@ -98,7 +98,7 @@ function upgrade_binaries() {
 	local repo_name="openshift-cartridge-nginx-hhvm"
 	
 	# Create directories for download and extraction
-	mkdir -p "${tmp_dir}${version}/"
+	mkdir -p "${tmp_dir}"
 	printf "Fetching latest binaries...\n"
 	curl "$release_url" -L -s > "${tmp_dir}${version}.tgz"
 	
@@ -118,8 +118,8 @@ function upgrade_binaries() {
 	rm -rf "${OPENSHIFT_PHP_DIR}usr/sbin"
 	mkdir "${OPENSHIFT_PHP_DIR}usr/sbin"
 	
-	cp -R "${bin_location}/versions/shared/usr/bin/*" "${OPENSHIFT_PHP_DIR}usr/bin/"
-	cp -R "${bin_location}/versions/shared/usr/sbin/*" "${OPENSHIFT_PHP_DIR}usr/sbin/"
+	cp -R "${bin_location}/versions/shared/usr/bin" "${OPENSHIFT_PHP_DIR}usr"
+	cp -R "${bin_location}/versions/shared/usr/sbin" "${OPENSHIFT_PHP_DIR}usr"
 	
 	printf "Writing new version to version file\n"
 	echo "$version" > "$OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION"
