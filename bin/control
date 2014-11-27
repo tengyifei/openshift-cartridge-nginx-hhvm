@@ -127,7 +127,8 @@ function update() {
 	
 	read -p "Do you want to upgrade? (Y/N): " -n 1 -r
 	
-	if [[ $REPLY =~ ^[Yy]$ ]] then
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then
 		upgrade_binaries "$latest_version"
 	fi
 	
