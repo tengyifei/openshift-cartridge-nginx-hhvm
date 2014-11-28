@@ -143,7 +143,7 @@ function update() {
 	echo
 	
 	# Obtain last line
-	local latest_version_line="$(sed -e 1b -e '$!d' $version_file)"
+	local latest_version_line="$(cat $version_file | tail -1)"
 	local latest_version="${latest_version_line%% *}"
 	
 	echo "Latest version: $latest_version"
