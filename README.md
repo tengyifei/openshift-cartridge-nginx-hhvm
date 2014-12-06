@@ -8,11 +8,26 @@ Partly based on [pinodex/openshift-nginx-php-fpm](https://github.com/pinodex/ope
 
 ### Command line
 ```bash
-$ rhc app create appname http://cartreflect-claytondev.rhcloud.com/github/tengyifei/openshift-cartridge-nginx-hhvm
-$ cd appname
+$ rhc app create <appname> http://cartreflect-claytondev.rhcloud.com/github/ranib/openshift-cartridge-nginx-hhvm
+$ cd <appname>
 $ echo '<?php echo "Hello HHVM " . HHVM_VERSION; ?>' > www/index.php
 $ git add .
 $ git commit -m 'Testing'
+$ git push
+
+To add mysql cartridge
+$ rhc cartridge add mysql-5.5 -a <appname>
+
+To add Wordpress
+$ cd <appname>
+$ git remote add upstream https://github.com/openshift/wordpress-example
+$ git pull upstream master
+## 1. fix conflicts in action_hooks/deploy
+## 2. edit wp-config.php file (change FORCE_SSL_ADMIN to false)
+## 3. add in wp-config.php file
+## 4. then commit
+$ git add -A
+$ git commit -am 'install wordpress'
 $ git push
 ```
 
