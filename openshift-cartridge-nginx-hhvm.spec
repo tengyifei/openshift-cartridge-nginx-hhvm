@@ -2,7 +2,7 @@
 %global frameworkdir %{_libexecdir}/openshift/cartridges/nginx-hhvm
 
 Name:          openshift-cartridge-nginx-hhvm
-Version:       0.0.0.6
+Version:       0.0.0.7
 Release:       1%{?dist}
 Summary:       HHVM cartridge
 Group:         Development/Languages
