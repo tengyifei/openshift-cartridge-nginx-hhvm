@@ -1,41 +1,156 @@
+# for fastcgi_cache with conditional purging to work with Wordpress
+    fastcgi_cache_path <%= ENV['TMP'] %>/nginx/nginx-cache levels=1:2 keys_zone=WORDPRESS:32m inactive=60m;
+    fastcgi_cache_key "$scheme$request_method$host$request_uri";
+    fastcgi_cache_use_stale error timeout invalid_header http_500;
+    fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
+    
+    access_log off;
+    keepalive_timeout  60 15;
+    keepalive_requests 200;
+    types_hash_max_size 2048;
+    reset_timedout_connection on;
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay off;
+    port_in_redirect off;
+    server_tokens off;
+
+    gzip on;
+    gzip_disable "msie6";
+    gzip_min_length 256;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript font/ttf font/opentype application/vnd.ms-fontobject image/svg+xml;
+    
+    open_file_cache max=10000 inactive=30s;
+    open_file_cache_valid    60s;
+    open_file_cache_min_uses 2;
+    open_file_cache_errors   on;
+
+    client_header_timeout  10m;
+    client_body_timeout    10m;
+    send_timeout           10m;
+    proxy_read_timeout     2m;
+    fastcgi_read_timeout   3m;
+    
+    client_header_buffer_size    1k;
+    large_client_header_buffers  4 4k;
+    output_buffers   1 32k;
+    postpone_output  1460;
+    
 server {
     root              <%= ENV['OPENSHIFT_REPO_DIR'] %>www;
     listen            <%= ENV['OPENSHIFT_PHP_IP'] %>:<%= ENV['OPENSHIFT_PHP_PORT'] %>;
     server_name       <%= ENV['OPENSHIFT_APP_DNS'] %>;
-    index             index.php index.html index.htm;
-
+   
     set_real_ip_from  <%= ENV['OPENSHIFT_PHP_IP'] %>;
     real_ip_header    X-Forwarded-For;
 
-    # avoid caching by proxies
-    add_header        Cache-Control private;
+    # To fix Nginx Error: 413 Request Entity Too Large #
+    client_max_body_size 32M;
+    
+    # add X-Cache header
+    add_header X-Cache $upstream_cache_status;
+
+    set $skip_cache 0;
+
+    # POST requests and urls with a query string should always go to PHP
+    if ($request_method = POST) {
+      set $skip_cache 1;
+    }   
+    if ($query_string != "") {
+      set $skip_cache 1;
+    }   
+
+    # Don't cache uris containing the following segments
+    if ($request_uri ~* "/wp-admin/|/xmlrpc.php|wp-.*.php|/feed/|index.php|sitemap(_index)?.xml") {
+      set $skip_cache 1;
+    }   
+
+    # Don't use the cache for logged in users or recent commenters
+    if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_no_cache|wordpress_logged_in") {
+      set $skip_cache 1;
+    }
+
+    # note location block is simple now as caching is done on nginx's end
+    location / {
+      index index.html index.htm index.php;
+      try_files $uri $uri/ /index.php?$args;
+    }    
+
+    # Add trailing slash to */wp-admin requests.
+    rewrite /wp-admin$ $scheme://$host$uri/ permanent;
 
     # php file goes straigth to backend
     location ~ \.php$ {
-        try_files $uri =404;
+        include <%= ENV['OPENSHIFT_PHP_DIR'] %>/configuration/etc/fastcgi_params;
+        include <%= ENV['OPENSHIFT_PHP_DIR'] %>/configuration/etc/openshift_params;
         fastcgi_pass   unix:<%= ENV['OPENSHIFT_DATA_DIR'] %>hhvm.sock;
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME   $document_root$fastcgi_script_name;
-        include        fastcgi_params;
-        include        openshift_params;
 
+        fastcgi_cache_bypass $skip_cache;
+            fastcgi_no_cache $skip_cache;
+
+        fastcgi_cache WORDPRESS;
+        fastcgi_cache_valid  60m;
+      
         # uncomment to export all environment variables to fastcgi
         #include        <%= ENV['OPENSHIFT_REPO_DIR'] %>/config/nginx.d/export_env;
     }
 
-    # avoid unnecessary log
-    location = /favicon.ico {
-        access_log off;
-        log_not_found off;
+    location ~ /purge(/.*) {
+        fastcgi_cache_purge WORDPRESS "$scheme$request_method$host$1";
+    }	
+
+    # Directives to send expires headers and turn off 404 error logging
+    location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
+      access_log off;	log_not_found off; expires max;
     }
 
-    location = /robots.txt {
-        access_log off;
-        log_not_found off;
+    # Designed to be included in any server {} block.</p>
+    location = /favicon.php { access_log off; log_not_found off; }
+    location = /robots.txt { access_log off; log_not_found off; }
+    
+    # Cache static content (same as) Add Expires headers recommended by YSlow
+    location ~* \.(png|gif|jpg|jpeg|css|js|swf|ico|txt|xml|bmp|pdf|doc|docx|ppt|pptx|zip)$ {
+            access_log off;
+            expires 30d;
+    }
+    
+    # Keep logging the requests to parse later (or to pass to firewall utilities such as fail2ban)
+    location ~ /\. { deny  all; access_log off; log_not_found off; }
+    
+    # Deny access to any files with a .php extension in the uploads directory
+    # Works in sub-directory installs and also in multisite network
+    # Keep logging the requests to parse later (or to pass to firewall utilities such as fail2ban)
+    location ~* /(?:uploads|files)/.*\.php$ {
+            deny all;
     }
 
-    # Handle any other URI
-    location / {
-        try_files $uri $uri/ =404;
+    # Make sure files with the following extensions do not get loaded by nginx because nginx would display the source code, and these files can contain PASSWORDS!
+    location ~* \.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(\.php)?|xtmpl)$|^(\..*|Entries.*|Repository|Root|Tag|Template)$|\.php_
+    {
+            return 444;
+    }
+
+    # Deny all attempts to access hidden files such as .htaccess, .htpasswd, .DS_Store (Mac).
+    location ~ /\. {
+            return 444;
+            access_log off;
+            log_not_found off;
+    }
+
+    #nocgi
+    location ~* \.(pl|cgi|py|sh|lua)\$ {
+            return 444;
+    }
+
+    #disallow
+        location ~* (roundcube|webdav|smtp|http\:|soap|w00tw00t) {
+            return 444;
     }
 }
