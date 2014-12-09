@@ -30,6 +30,11 @@ $ git add -A
 $ git commit -am 'install wordpress'
 $ git push
 ```
+### To check your logs on your gear (troubleshoot)
+rhc tail -a <appname>
+or
+rhc ssh <appname>
+cd $OPENSHIFT_LOG_DIR
 
 ### Updating Cartridge
 OpenShift Online has made it next to impossible to update web cartridges unintrusively. Previous methods involved removing the cartridge (therefore the entire app!) and reinstalling it to let OpenShift grab the latest version in the repository.
