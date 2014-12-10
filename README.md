@@ -25,10 +25,10 @@ $ git pull upstream master
 ## 1. fix conflicts in action_hooks/deploy
 ## 2. edit wp-config.php file (change FORCE_SSL_ADMIN to false)
 ## 3. add in wp-config.php file
-(before this line) /* That's all, stop editing! Happy blogging. */
-/** Woocommerce plugin recommends to increase WP Memory Limit to 64MB */
-define( 'WP_MEMORY_LIMIT', '64M' );
-(at the end)
+## (before this line) /* That's all, stop editing! Happy blogging. */
+## /** Woocommerce plugin recommends to increase WP Memory Limit to 64MB */
+## define( 'WP_MEMORY_LIMIT', '64M' );
+## (at the end)
 ## /** path to fastcgi cache directory for Nginx Helper plugin */
 ## define('RT_WP_NGINX_HELPER_CACHE_PATH','/tmp/nginx/nginx-cache');
 ## 4. then commit
