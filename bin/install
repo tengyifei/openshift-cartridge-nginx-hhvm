@@ -16,3 +16,6 @@ echo "$version" > "$OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION"
 
 # build initial config
 cp -Hr $OPENSHIFT_PHP_DIR/versions/$VERSION_DIR/configuration/etc/* $OPENSHIFT_PHP_DIR/configuration/etc/
+
+# create symlinks for hhvm binaries
+(cd "$OPENSHIFT_PHP_DIR/versions/$VERSION_DIR/usr/bin" && ./symlinks.sh)
