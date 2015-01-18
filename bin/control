@@ -5,7 +5,7 @@ source ${OPENSHIFT_PHP_DIR}lib/util
 
 NGINX_CFG_FILE=${OPENSHIFT_PHP_DIR}configuration/etc/nginx.conf
 NGINX_PID_FILE=${OPENSHIFT_PHP_DIR}run/nginx.pid
-PHP_CFG_FILE=${OPENSHIFT_REPO_DIR}config/hhvm.d/config.hdf
+PHP_CFG_FILE=${OPENSHIFT_REPO_DIR}config/hhvm.d/config.ini
 PHP_PID_FILE=${OPENSHIFT_DATA_DIR}hhvm.pid
 
 function _nginx() {
