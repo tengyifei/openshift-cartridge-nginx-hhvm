@@ -1,0 +1,21 @@
+; Log
+hhvm.log.level = Warning
+hhvm.log.use_log_file = true
+hhvm.log.file = <%= ENV['OPENSHIFT_PHP_LOG_DIR']%>hhvm.log
+hhvm.log.always_log_unhandled_exceptions = true
+hhvm.log.header = false
+hhvm.log.max_messages_per_request = -1
+hhvm.log.runtime_error_reporting_level = 8191
+
+; Eval
+hhvm.enable_zend_compat = true
+
+; Repo
+hhvm.repo.central.path = <%= ENV['OPENSHIFT_DATA_DIR'] %>.hhvm.hhbc
+
+; Pid file
+hhvm.pid_file = <%= ENV['OPENSHIFT_DATA_DIR'] %>hhvm.pid
+
+; Uncomment to load GeoIP extension
+;hhvm.dynamic_extension_path = <%= ENV['OPENSHIFT_PHP_DIR'] %>usr/bin
+;hhvm.dynamic_extensions[geoip] = geoip.so

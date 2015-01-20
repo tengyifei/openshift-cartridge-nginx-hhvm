@@ -128,6 +128,9 @@
     Place your HHVM <?php echo HHVM_VERSION; ?> application here
   </p>
   <p>
+    Gettext is <?php echo (function_exists("bindtextdomain"))?"Enabled":"disabled"; ?>. GeoIP is <?php echo (function_exists("geoip_database_info"))?"Enabled":"disabled"; ?>.
+  </p>
+  <p>
     In order to commit to your new project, go to your projects git repo (created with the rhc app create command).  Make your changes, then run:
   </p>
   <pre>
