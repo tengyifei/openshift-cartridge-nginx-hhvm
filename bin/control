@@ -33,6 +33,11 @@ function start() {
 	local VERSION="$(cat $OPENSHIFT_PHP_DIR/env/OPENSHIFT_PHP_VERSION)"
 	client_message "Version: ${VERSION} "
 
+    # Recreate socket
+    if [ -f ${OPENSHIFT_DATA_DIR}hhvm.sock ]; then
+        unlink ${OPENSHIFT_DATA_DIR}hhvm.sock
+    fi
+    
     client_message "starting..."
     build_nginx_config && build_phpfpm_config
     _start_php
