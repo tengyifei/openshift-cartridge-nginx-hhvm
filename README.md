@@ -18,6 +18,12 @@ $ git commit -m 'Testing'
 $ git push
 ```
 
+### On the Web
+
+[![NGINX+HHVM ON OpenShift](http://launch-shifter.rhcloud.com/launch/NGINX+HHVM ON.svg)](https://openshift.redhat.com/app/console/application_type/custom?&cartridges[]=http://cartreflect-claytondev.rhcloud.com/github/tengyifei/openshift-cartridge-nginx-hhvm&name=hhvm)
+
+OpenShift also offers a [web-based application launcher workflow](https://blog.openshift.com/customizing-openshifts-web-based-app-creation-workflow/).  PHP project maintainers can [build their own launch buttons using this cart, with `launch-service`](http://launch-shifter.rhcloud.com/?cartridges[]=http://cartreflect-claytondev.rhcloud.com/github/tengyifei/openshift-cartridge-nginx-hhvm&initial_git_url=http://github.com/ryanj/silex-base&name=hhvm)
+
 ### Updating Cartridge
 
 *Note: from HHVM version 3.5.0 onwards this cartridge uses INI settings instead of the deprecated HDF. You'll still have to do a manual upgrade to pick up this change.*
