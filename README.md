@@ -9,6 +9,7 @@ Partly based on [pinodex/openshift-nginx-php-fpm](https://github.com/pinodex/ope
 ## Usage
 
 ### Command line
+The WWW root is located in `www` folder of your code repository.
 ```bash
 $ rhc app create appname http://cartreflect-claytondev.rhcloud.com/github/tengyifei/openshift-cartridge-nginx-hhvm
 $ cd appname
@@ -39,7 +40,7 @@ bin/control update
 
 ## HHVM
 
-The HHVM packaged with this cartridge is built directly from the newest released version of HHVM source. Different from the official version, it comes with the experimental Zend Compatibility Layer (enabling many Zend extensions e.g. gettext, oauth) and a GeoIP plug-in. However, the user must manually specify a GeoIP database location via the HHVM config file.
+The HHVM packaged with this cartridge is built directly from the newest released version of HHVM source. Different from the official version, it comes with the experimental Zend Compatibility Layer (enabling many Zend extensions e.g. gettext, oauth) and a GeoIP plug-in.
 
 ## User-defined configuration
 

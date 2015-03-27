@@ -9,14 +9,33 @@ function _run_template()
 	done
 }
 
+function build_config()
+{
+    # If config file is not found, use factory default
+    local CONFIG_NAME=$1
+    CONF_DIR=${OPENSHIFT_REPO_DIR}config/$CONFIG_NAME
+    if [ ! -d $CONF_DIR ]; then
+        echo "Using default configuration for $CONFIG_NAME"
+        mkdir -p $CONF_DIR
+        # Copy factory default
+        cp -r ${OPENSHIFT_PHP_DIR}usr/template/config/$CONFIG_NAME/*.erb $CONF_DIR
+        _run_template $CONF_DIR/*.erb
+        # Remove factory default after generating real configurations
+        rm $CONF_DIR/*.erb
+    else
+        # Generate configs from templates as per normal
+        _run_template $CONF_DIR/*.erb
+    fi
+}
+
 function build_nginx_config()
 {
 	echo "Building nginx configuration"
-	_run_template ${OPENSHIFT_REPO_DIR}config/nginx.d/*.erb
+    build_config "nginx.d"
 }
 
 function build_phpfpm_config()
 {
 	echo "Building hhvm configuration"
-	_run_template ${OPENSHIFT_REPO_DIR}config/hhvm.d/*.erb
+    build_config "hhvm.d"
 }
