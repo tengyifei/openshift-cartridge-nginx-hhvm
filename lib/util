@@ -15,6 +15,7 @@ function build_config()
     local CONFIG_NAME=$1
     CONF_DIR=${OPENSHIFT_REPO_DIR}config/$CONFIG_NAME
     if [ ! -d $CONF_DIR ]; then
+        echo "Using default configuration for $CONFIG_NAME"
         mkdir -p $CONF_DIR
         # Copy factory default
         cp -r ${OPENSHIFT_PHP_DIR}usr/template/config/$CONFIG_NAME/*.erb $CONF_DIR
