@@ -31,6 +31,15 @@ function build_config()
 function build_nginx_config()
 {
 	echo "Building nginx configuration"
+    export NGINX_WWW_ROOT="www"
+    # Detect alternative project layouts
+    if [[ -e ${OPENSHIFT_REPO_DIR}index.php ]] || [[ -e ${OPENSHIFT_REPO_DIR}app.php ]]; then
+        # Use project root as www root
+        export NGINX_WWW_ROOT=""
+        if [[ -e ${OPENSHIFT_REPO_DIR}app.php ]]; then
+            export NGINX_EXTRA_INDEX="app.php"
+        fi
+    fi
     build_config "nginx.d"
 }
 
