@@ -9,7 +9,7 @@ Partly based on [pinodex/openshift-nginx-php-fpm](https://github.com/pinodex/ope
 ## Usage
 
 ### Command line
-The WWW root is located in `www` folder of your code repository.
+The www root is located in `www` folder of your code repository, *unless* `index.php` or `app.php` is detected at the root folder of the repository, in which case the www root will be the root folder.
 ```bash
 $ rhc app create appname http://cartreflect-claytondev.rhcloud.com/github/tengyifei/openshift-cartridge-nginx-hhvm
 $ cd appname
