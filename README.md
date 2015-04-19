@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/tengyifei/openshift-cartridge-nginx-hhvm](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tengyifei/openshift-cartridge-nginx-hhvm?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Nginx 1.7.8 with HHVM 3.6.0
+Nginx 1.7.12 with HHVM 3.6.0
 
 Partly based on [pinodex/openshift-nginx-php-fpm](https://github.com/pinodex/openshift-nginx-php-fpm).
 
