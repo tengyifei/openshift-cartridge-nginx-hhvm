@@ -46,4 +46,4 @@ The HHVM packaged with this cartridge is built directly from the newest released
 
 Place your nginx .conf files inside config/nginx.d/. It will be include()ed from "http" scope.
 
-You may edit the config.hdf inside config/hhvm.d/. This configuration file will be loaded by HHVM.
+You may edit the config.ini inside config/hhvm.d/. This configuration file will be loaded by HHVM.
