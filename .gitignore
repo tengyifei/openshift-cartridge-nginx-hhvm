@@ -1,2 +1,5 @@
 # Github pages
 _site
+
+# OS X
+.DS_Store
