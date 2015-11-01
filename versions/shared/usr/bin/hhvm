@@ -1,1 +1,2 @@
-HHVM_SYSTEMLIB=systemlib.php ./hhvm_real "$@"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
+HHVM_SYSTEMLIB=systemlib.php $DIR/hhvm_real "$@"
