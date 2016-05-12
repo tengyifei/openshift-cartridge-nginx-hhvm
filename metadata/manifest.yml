@@ -1,15 +1,15 @@
 Name: nginx-hhvm
 Cartridge-Short-Name: PHP
-Display-Name: Nginx HHVM 3.11.0
+Display-Name: Nginx HHVM 3.13.1
 Description: "Nginx [engine x] is an HTTP and reverse proxy server, as well as a mail proxy server, written by Igor Sysoev. HHVM is an open-source virtual machine designed for executing programs written in Hack and PHP."
-Version: '3.11.0'
+Version: '3.13.1'
 Versions:
-  - '3.11.0'
+  - '3.13.1'
 License: "The PHP License, version 3.0"
 License-Url: http://www.php.net/license/3_0.txt
 Vendor: php.net
-Cartridge-Version: 0.1.6
-Compatible-Versions: [0.1.2, 0.1.3, 0.1.4, 0.1.5]
+Cartridge-Version: 0.1.7
+Compatible-Versions: [0.1.2, 0.1.3, 0.1.4, 0.1.5, 0.1.6]
 Cartridge-Vendor: tengyifei
 Categories:
   - service
@@ -46,9 +46,9 @@ Cart-Data:
     Type: environment
     Description: "Unique ID which identified the gear. This value changes between gears."
 Provides:
-  - nginx-1.7
+  - nginx-1.10
   - "nginx"
-  - hhvm-3.11
+  - hhvm-3.13
   - "hhvm"
 Publishes:
   get-php-ini:
@@ -89,9 +89,9 @@ Endpoints:
     Private-Port-Name: FPM_PORT
     Private-Port:      9000
 Version-Overrides:
-  '3.11':
-     Display-Name: HHVM 3.11
+  '3.13':
+     Display-Name: HHVM 3.13
      License: "The PHP License, version 3.0"
      Provides:
-       - hhvm-3.11
+       - hhvm-3.13
        - "hhvm"
